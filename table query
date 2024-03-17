@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS news_data (source STRING,
+author STRING,
+title STRING,
+description STRING,
+url STRING,
+publishedAT STRING,
+content STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION   '/Project/news/'
+TBLPROPERTIES ("skip.header.line.count"="1");
+
+LOAD DATA INPATH '/Project/news' INTO TABLE news_data;
+
+Query 1
+SELECT source, COUNT(*) AS article_count
+FROM news_data
+GROUP BY source
+ORDER BY article_count DESC
+LIMIT 5;
+
+Query 2
+SELECT title FROM news_data  WHERE content LIKE ‘%crime%’;
+
+Query 3
+SELECT author, COUNT(*) AS article_count 
+FROM news_data
+GROUP BY author 
+ORDER BY article_count DESC;
